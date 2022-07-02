@@ -1,0 +1,14 @@
+body {
+  margin: 0;
+  padding: 10px 0 0 0; 
+  /* 20px from top and 0 pixels from right, bottom and left */
+  font-family: sans-serif;
+}
+
+.navbar {
+ margin-bottom: 30px;
+}
+
+/* .clickable {
+  cursor: pointer;
+} */
