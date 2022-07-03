@@ -5,34 +5,33 @@ import React from 'react';
 // olarak girdiğimizde aynı yukardaki gibi ilgili özelliğe bunlar spread (yayma) edilir.
 // name ve error hariç geri kalan her şeyi props'tan alacak. Bizden spesifik olarak
 // bu iki parametreyi isteyecek bunlar input komponent'ine özgü olmazsa olmaz değişkenler.
-const Input = ({ name: label, text, error, ...rest }) => {
+const Input = ({ name, label, text, error, ...rest }) => {
   //console.log(label);
 
   return (
     <div className='mb-3'>
       <label
-        htmlFor={label}
+        htmlFor={name}
         className='form-label'
       >
         {text}
-        {/* buraya props'tan bilgi alarak direkt metin de yazabilirdim ama yukardakini tercih ettim */}
       </label>
       <input
         // type={type}
         // value={value}
         // onChange={onChange}
         {...rest}
-        name={label}
+        name={name}
         text={text}
-        id={label}
+        id={name}
         className='form-control'
-        aria-describedby={label + 'Help'}
+        aria-describedby={name + 'Help'}
       />
       <div
-        id={label + 'Help'}
+        id={name + 'Help'}
         className='form-text'
       >
-        Enter your {text}
+        Enter your {label}
       </div>
       {error && (
         <div

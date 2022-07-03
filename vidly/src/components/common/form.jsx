@@ -61,12 +61,13 @@ class Form extends Component {
   }
 
   // type = 'text' eğer parametre geçilmemişse text olarak alır
-  renderInput(name, text, type = 'text', step = '1.0') {
+  renderInput(name, label, text, type = 'text', step = '1.0') {
     const { data, errors } = this.state;
 
     return (
       <Input
         name={name}
+        label={label}
         text={text}
         type={type}
         step={step}
