@@ -6,6 +6,9 @@ import { toast } from 'react-toastify';
 
 // tüm fonksiyonlar userService objesinin metotları olarak import edilir
 import * as userService from '../services/userService';
+import auth from '../services/authService';
+// import * as auth from '../services/authService';
+
 import Form from './common/form';
 
 // function withParams(Component) {
@@ -36,7 +39,7 @@ class RegisterForm extends Form {
       // const { navigate } = this.props;
 
       const response = await userService.register(this.state.data);
-      localStorage.setItem('token', response.headers['x-auth-token']);
+      auth.loginWithJwt(response.headers['x-auth-token']);
 
       // toast.success('The user has been created');
       //navigate('/');

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
-import jwtDecode from 'jwt-decode';
 
 import Navbar from './components/navbar';
 // import Home from './components/home';
@@ -16,7 +15,10 @@ import Rentals from './components/rentals';
 import Movies from './components/movies';
 import MovieForm from './components/movieForm';
 import LoginForm from './components/loginForm';
+import Logout from './components/logout';
 import RegisterForm from './components/registerForm';
+
+import auth from './services/authService';
 
 // import Users from './components/admin/users';
 // import UserPosts from './components/admin/posts';
@@ -30,14 +32,8 @@ class App extends Component {
 
   // Burası sadece bir kere uygulama başlatılınca çalıştırılır.
   componentDidMount() {
-    try {
-      const jwt = localStorage.getItem('token');
-      const user = jwtDecode(jwt);
-
-      this.setState({ user });
-    } catch (ex) {
-      //ignore
-    }
+    const user = auth.getCurrentUser();
+    this.setState({ user });
   }
 
   render() {
@@ -95,6 +91,10 @@ class App extends Component {
             <Route
               path='/login'
               element={<LoginForm />}
+            />
+            <Route
+              path='/logout'
+              element={<Logout />}
             />
             <Route
               path='/register'

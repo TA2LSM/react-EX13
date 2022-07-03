@@ -12,7 +12,7 @@ const NavBar = ({ user }) => {
           <strong>Vidly</strong>
         </Link>
 
-        <div class='collapse navbar-collapse'>
+        <div className='collapse navbar-collapse'>
           <ul className='navbar-nav me-auto mb-2 mb-lg-0'>
             <NavLink
               className='nav-item nav-link'

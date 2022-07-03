@@ -1,10 +1,10 @@
 import React from 'react';
 // import { useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
 
+import { toast } from 'react-toastify';
 import Joi from 'joi-browser';
 
-import * as authService from '../services/authService';
+import auth from '../services/authService';
 import Form from './common/form';
 
 // function withParams(Component) {
@@ -35,11 +35,7 @@ class LoginForm extends Form {
       // let { navigate } = this.props;
 
       const { data } = this.state;
-      const { data: jwt } = await authService.login(data.username, data.password);
-      // json web token'ı alıyoruz
-
-      localStorage.setItem('token', jwt);
-      // browser local storage'e json web token kaydedildi
+      await auth.login(data.username, data.password);
 
       //navigate('/');
       // bizi home kısmına geri getirir
