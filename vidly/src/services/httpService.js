@@ -3,7 +3,7 @@ import { toast } from 'react-toastify';
 
 import logger from './logService';
 
-// Metodun iki girdisi olan "success" ve "error" birer fonksiyon.
+// Aşağıdaki metodun iki girdisi olan "success" ve "error" birer fonksiyon.
 // Burada success ile işimiz yok o nedenle kullanılmadı.
 // axios.interceptors.response.use(success, error);
 
@@ -13,8 +13,7 @@ import logger from './logService';
 // tek bir yerden çalıştırılacaktır. Böylece her metot içine error handling
 // yazmaya gerek kalmayacaktır. SADECE UNEXPECTED ERROR handling için kullanılıyor.
 axios.interceptors.response.use(null, error => {
-  const expectedError =
-    error.response && error.response.status >= 400 && error.response.status < 500;
+  const expectedError = error.response && error.response.status >= 400 && error.response.status < 500;
   //console.log('Interceptor Called!');
 
   if (!expectedError) {
@@ -40,9 +39,18 @@ axios.interceptors.response.use(null, error => {
   return Promise.reject(error);
 });
 
+export function setJwt(jwt) {
+  // common metodu ile tüm isteklere aşağıdaki header'lar eklenir.
+  // sadece put ya da post gibi isteklere eklemek istersek common yerine
+  // bu metotlar kullanılabilir.
+  axios.defaults.headers.common['x-auth-token'] = jwt;
+  // eğer token notdefined isen yukardaki header oluşturulmayacaktır.
+}
+
 export default {
   get: axios.get,
   post: axios.post,
   put: axios.put,
   delete: axios.delete,
+  setJwt,
 };

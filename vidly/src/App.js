@@ -16,7 +16,9 @@ import Movies from './components/movies';
 import MovieForm from './components/movieForm';
 import LoginForm from './components/loginForm';
 import Logout from './components/logout';
+import UserProfile from './components/userProfile';
 import RegisterForm from './components/registerForm';
+import { CheckAdmin, CheckLogin } from './components/common/protedtedRoute';
 
 import auth from './services/authService';
 
@@ -28,7 +30,9 @@ import 'react-toastify/dist/ReactToastify.css';
 import './App.css';
 
 class App extends Component {
-  state = {};
+  state = {
+    // user: {},
+  };
 
   // Burası sadece bir kere uygulama başlatılınca çalıştırılır.
   componentDidMount() {
@@ -37,6 +41,7 @@ class App extends Component {
   }
 
   render() {
+    const { user } = this.state;
     const toastSettings = {
       position: toast.POSITION.BOTTOM_LEFT,
       autoClose: 2000,
@@ -77,7 +82,7 @@ class App extends Component {
         </div>
 
         <ToastContainer {...toastSettings} />
-        <Navbar user={this.state.user} />
+        <Navbar user={user} />
         <div>
           <Routes>
             <Route
@@ -101,12 +106,24 @@ class App extends Component {
               element={<RegisterForm />}
             />
             <Route
+              path='/profile'
+              element={
+                <CheckLogin user={auth.getCurrentUser()}>
+                  <UserProfile user={user} />
+                </CheckLogin>
+              }
+            />
+            <Route
               path='/movies/:id'
-              element={<MovieForm />}
+              element={
+                <CheckAdmin user={auth.getCurrentUser()}>
+                  <MovieForm />
+                </CheckAdmin>
+              }
             />
             <Route
               path='/movies'
-              element={<Movies />}
+              element={<Movies user={user} />}
             />
             {/* "/messages" yazılmazsa yeni route "/messages/posts" oluyor o da not-found'a gidiyor !!! */}
             <Route

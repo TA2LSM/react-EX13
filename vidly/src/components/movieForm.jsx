@@ -1,6 +1,6 @@
 import React from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import Joi from 'joi-browser';
+import Joi, { errors } from 'joi-browser';
 import { toast } from 'react-toastify';
 
 import Form from './common/form';
@@ -82,8 +82,9 @@ class MovieForm extends Form {
 
   doSubmit = async () => {
     if (this.state.errors) {
-      toast.error('Form validation error');
-      return;
+      //toast.error('Unauthorized action');
+      //return;
+      console.error(errors);
     }
 
     try {
@@ -102,10 +103,10 @@ class MovieForm extends Form {
       <>
         <h3>{this.state.pagetitle}</h3>
         <form>
-          {this.renderInput('title', 'Title')}
-          {this.renderSelect('genreId', 'Genre', this.state.genres)}
-          {this.renderInput('numberInStock', 'Number in Stock', 'number')}
-          {this.renderInput('dailyRentalRate', 'Daily Rental Rate', 'number', '0.1')}
+          {this.renderInput('title', `movie's title`, 'Title')}
+          {this.renderSelect('genreId', `movie's genre from list`, 'Genre', this.state.genres)}
+          {this.renderInput('numberInStock', 'number in stock', 'Number in Stock', 'number')}
+          {this.renderInput('dailyRentalRate', `movie's daily rental rate`, 'Daily Rental Rate', 'number', '0.1')}
           {this.renderButton('Save')}
         </form>
       </>

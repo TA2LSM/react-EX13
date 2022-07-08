@@ -1,5 +1,5 @@
 import React from 'react';
-// import { useNavigate } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 
 import { toast } from 'react-toastify';
 import Joi from 'joi-browser';
@@ -55,6 +55,15 @@ class LoginForm extends Form {
   };
 
   render() {
+    if (auth.getCurrentUser()) {
+      return (
+        <Navigate
+          replace
+          to='/'
+        />
+      );
+    }
+
     return (
       <div>
         <h3>Please Login</h3>

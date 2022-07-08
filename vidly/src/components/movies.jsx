@@ -1,5 +1,5 @@
 import React, { Component } from 'react'; //imrc
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import _ from 'lodash';
 
 import { getMovies, deleteMovie } from '../services/movieService';
@@ -14,6 +14,17 @@ import SearchBox from './common/searchBox';
 
 // reusable
 import { paginate } from '../utils/paginate';
+
+function withParams(Component) {
+  return props => (
+    <Component
+      {...props}
+      params={useParams()}
+      // history={createBrowserHistory()}
+      //navigate={useNavigate()}
+    />
+  );
+}
 
 //cc
 class Movies extends Component {
@@ -117,6 +128,8 @@ class Movies extends Component {
   };
 
   render() {
+    const { user } = this.props;
+
     const { length: count } = this.state.movies;
     //movies objesine ait lenght metodunun dönüşü count olarak alınıyor
     if (count === 0) return <p>There is no movie in the database!</p>;
@@ -168,12 +181,14 @@ class Movies extends Component {
 
             <div className='row dflex align-items-center'>
               <div className='col-2'>
-                <Link
-                  to='/movies/new'
-                  className='btn btn-outline-primary'
-                >
-                  Add New Movie
-                </Link>
+                {user && user.isAdmin === true && (
+                  <Link
+                    to='/movies/new'
+                    className='btn btn-outline-primary'
+                  >
+                    Add New Movie
+                  </Link>
+                )}
               </div>
 
               <div
@@ -225,4 +240,4 @@ class Movies extends Component {
   }
 }
 
-export default Movies;
+export default withParams(Movies);

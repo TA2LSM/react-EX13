@@ -1,12 +1,12 @@
 import React from 'react';
 
-const Select = ({ name: label, text, error, options, ...rest }) => {
+const Select = ({ name, label, text, options, error, ...rest }) => {
   return (
     <div className='form-group mb-3'>
       <label htmlFor={label}>{text}</label>
       <select
-        name={label}
-        id={label}
+        name={name}
+        id={name}
         {...rest}
         className='form-control'
       >
@@ -21,10 +21,10 @@ const Select = ({ name: label, text, error, options, ...rest }) => {
         ))}
       </select>
       <div
-        id={label + 'Help'}
+        id={name + 'Help'}
         className='form-text'
       >
-        Select your {text}
+        Select your {label}
       </div>
       {error && (
         <div

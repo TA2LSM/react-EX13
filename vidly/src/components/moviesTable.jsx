@@ -6,13 +6,26 @@ import { Link } from 'react-router-dom';
 import Like from './common/like';
 import Table from './common/table';
 
+import auth from '../services/authService';
+
+function checkUserIsAdmin() {
+  const user = auth.getCurrentUser();
+
+  if (user && user.isAdmin) return true;
+  return false;
+}
 class MoviesTable extends Component {
   columns = [
     {
       path: 'title',
       label: 'Title',
       sortable: 'true',
-      content: movie => <Link to={`/movies/${movie._id}`}>{movie.title}</Link>,
+      content: movie =>
+        checkUserIsAdmin(this.props.user) ? (
+          <Link to={`/movies/${movie._id}`}>{movie.title}</Link>
+        ) : (
+          <span>{movie.title}</span>
+        ),
     },
     { path: 'genre.name', label: 'Genre', sortable: 'true' },
     { path: 'numberInStock', label: 'Stock', sortable: 'true' },
@@ -28,20 +41,26 @@ class MoviesTable extends Component {
         />
       ),
     },
-    {
-      label: 'Modify',
-      key: 'Modify',
-      sortable: 'false',
-      content: movie => (
-        <button
-          onClick={() => this.props.onDelete(movie)}
-          className='btn btn-danger btn-sm fw-bold'
-        >
-          Delete
-        </button>
-      ),
-    },
   ];
+
+  deletedColumn = {
+    label: 'Modify',
+    key: 'Modify',
+    sortable: 'false',
+    content: movie => (
+      <button
+        onClick={() => this.props.onDelete(movie)}
+        className='btn btn-danger btn-sm fw-bold'
+      >
+        Delete
+      </button>
+    ),
+  };
+
+  constructor() {
+    super();
+    if (checkUserIsAdmin()) this.columns.push(this.deletedColumn);
+  }
 
   render() {
     const { movies, sortColumn, onSort } = this.props;
